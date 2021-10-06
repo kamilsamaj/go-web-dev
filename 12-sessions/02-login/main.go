@@ -30,6 +30,7 @@ func main() {
 	http.HandleFunc("/", rootHandler)
 	http.HandleFunc("/login/", loginHandler)
 	http.HandleFunc("/signup/", signupHandler)
+	http.HandleFunc("/logout/", logoutHandler)
 	fmt.Println("listening on http://localhost:8080")
 	log.Fatalln(http.ListenAndServe(":8080", nil))
 }
@@ -137,6 +138,24 @@ func signupHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	} else if r.Method == http.MethodGet {
 		tpl.ExecuteTemplate(w, "signup.gohtml", nil)
+	}
+}
+
+func logoutHandler(w http.ResponseWriter, r *http.Request) {
+	c, err := r.Cookie(sessionCookieName)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	delete(sessionDB, c.Value) // remove the cookie from a session db
+	http.SetCookie(w, &http.Cookie{
+		Name:   sessionCookieName,
+		Value:  "",
+		MaxAge: -1,
+		Path:   "/",
+	})
+	err = tpl.ExecuteTemplate(w, "logout.gohtml", nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
 
