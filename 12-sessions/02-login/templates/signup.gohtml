@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign up</title>
+</head>
+<body>
+{{ if . }}
+<!-- Error message -->
+<p style="color: red" >{{.}}</p>
+{{ end }}
+<form action="/signup/" method="post">
+    <input type="email" title="Username (email address)" placeholder="someone@your-domain.com" name="Username"><br>
+    <input type="text" title="Firstname" placeholder="Firstname" name="Firstname"><br>
+    <input type="text" title="Lastname" placeholder="Lastname" name="Lastname"><br>
+    <input type="password" title="Password" placeholder="Set your new password" name="Password"><br>
+    <input type="password" title="Repeat your password" placeholder="Repeat your password" name="Password2"><br>
+    <input type="submit"><br>
+</form>
+
+</body>
+</html>
